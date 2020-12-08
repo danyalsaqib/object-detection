@@ -27,7 +27,7 @@ net = cv2.dnn.readNetFromDarknet(modelConfiguration, modelWeights)
 net.setPreferableBackend(cv2.dnn.DNN_BACKEND_OPENCV)
 net.setPreferableTarget(cv2.dnn.DNN_TARGET_CPU)
 
-wind = ft.objWin()      
+wind = ft.objWin(0, 0, '0', '0')      
     
 def Lol():
     
@@ -42,14 +42,19 @@ def Lol():
     
     outputs = net.forward(outputNames)
     
-    ft.findObjects(outputs, img, classNames)
-    
+    x = 0
+    y = 0
+    a = "NONE"
+    b = "0"
+    x, y, a, b = ft.findObjects(outputs, img, classNames)
+
     cv2image = cv2.cvtColor(img, cv2.COLOR_BGR2RGBA)
     im = PIL.Image.fromarray(cv2image)
     imTk = ImageTk.PhotoImage(im)
     wind.lmain.imTk = imTk
     wind.lmain.configure(image = imTk)
+    wind.newVar(x, y, a, b)
     wind.lmain.after(1, Lol)
-    
+
 Lol()
 wind.root.mainloop()
