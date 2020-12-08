@@ -1,6 +1,12 @@
 import cv2
 import numpy as np
 import functs as ft
+from tkinter import *
+import tkinter as tk
+from PIL import Image
+from PIL import ImageTk
+import PIL
+
 
 cap = cv2.VideoCapture(0)
 whT = 416
@@ -21,9 +27,10 @@ net = cv2.dnn.readNetFromDarknet(modelConfiguration, modelWeights)
 net.setPreferableBackend(cv2.dnn.DNN_BACKEND_OPENCV)
 net.setPreferableTarget(cv2.dnn.DNN_TARGET_CPU)
 
-
-
-while True:
+wind = ft.objWin()      
+    
+def Lol():
+    
     success, img = cap.read()
     
     blob = cv2.dnn.blobFromImage(img, 1/255, (whT, whT), [0,0,0], 1, crop = False)
@@ -37,12 +44,12 @@ while True:
     
     ft.findObjects(outputs, img, classNames)
     
-    if success is None:
-        break
+    cv2image = cv2.cvtColor(img, cv2.COLOR_BGR2RGBA)
+    im = PIL.Image.fromarray(cv2image)
+    imTk = ImageTk.PhotoImage(im)
+    wind.lmain.imTk = imTk
+    wind.lmain.configure(image = imTk)
+    wind.lmain.after(1, Lol)
     
-    cv2.imshow('Webcam', img)
-    if cv2.waitKey(1) & 0xFF == ord('q'):
-        break
-
-cap.release()
-cv2.destroyAllWindows()
+Lol()
+wind.root.mainloop()
