@@ -80,6 +80,14 @@ class objWin():
         self.btn.grid(row = 7, column = 5, pady = 2,
                       columnspan = 1)
         
+        #capturing image button
+        self.controlVar2 = False
+        self.btn2 = Button(self.root, text="Capture Image", 
+                          command=self.captureImage, height=3, width=30)
+        self.btn2.config(bg = '#DCDCDC')
+        self.btn2.grid(row = 4, column = 5, pady = 2,
+                      columnspan = 1)
+        
         self.labela1 = tk.Label(self.root, text = "Detected Object: ",
                                 fg = 'white')
         self.labela1.config(bg = '#565656')
@@ -119,6 +127,9 @@ class objWin():
         self.labely1.grid(row = 3, column = 4, sticky = W, pady = 10) 
         self.labely2.grid(row = 3, column = 6, sticky = W, pady = 10,
                           columnspan = 2) 
+    
+    def captureImage(self):
+        self.controlVar2 = True
         
     def changeText(self):
         if self.lol1 == 0:

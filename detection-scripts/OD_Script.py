@@ -6,7 +6,9 @@ import tkinter as tk
 from PIL import Image
 from PIL import ImageTk
 import PIL
+import os
 
+gc = 0
 
 cap = cv2.VideoCapture(0)
 whT = 416
@@ -51,7 +53,13 @@ def Lolv1():
 def Lol():
     success, img = cap.read()
     img = cv2.flip(img, 1)
-    
+    if wind.controlVar2:
+        global gc
+        # Change Directory to where you want your images saved
+        path = 'D:\Documents\FYP Stuff\Object Detection\object-detection\CNN Training\Training Images'
+        cv2.imwrite(os.path.join(path , 'train_img_'+str(gc)+'.png'), img)
+        gc = gc + 1
+        wind.controlVar2 = False
     blob = cv2.dnn.blobFromImage(img, 1/255, (whT, whT), [0,0,0], 1, crop = False)
     net.setInput(blob)
     
